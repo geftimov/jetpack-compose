@@ -16,7 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.eftimoff.compose.api.Receipt
 import com.eftimoff.compose.ui.theme.ComposeTheme
 import com.eftimoff.compose.viewmodel.MainViewModel
@@ -84,9 +86,12 @@ fun BodyContent(
         item {
             Text(
                 text = "Receipts",
+                style = MaterialTheme.typography.body1.copy(
+                    fontSize = 20.sp
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp, bottom = 16.dp)
+                    .padding(bottom = 16.dp)
             )
         }
 
