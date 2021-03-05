@@ -1,5 +1,6 @@
-package com.eftimoff.compose.api
+package com.eftimoff.compose.network
 
+import com.eftimoff.compose.models.Receipts
 import retrofit2.http.GET
 
 interface ReceiptApi {

@@ -1,9 +1,5 @@
-package com.eftimoff.compose
+package com.eftimoff.compose.features.main
 
-import android.os.Bundle
-import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,55 +12,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.eftimoff.compose.api.Receipt
-import com.eftimoff.compose.ui.theme.ComposeTheme
-import com.eftimoff.compose.viewmodel.MainViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import com.eftimoff.compose.models.Receipt
 import dev.chrisbanes.accompanist.coil.CoilImage
 
-@AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+@Composable
+fun MainScreen(viewModel: MainViewModel) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = "Recipes")
+                },
+                backgroundColor = MaterialTheme.colors.surface
+            )
+        }
+    ) {
+        val state = viewModel.state.observeAsState()
 
-    private val viewModel: MainViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            ComposeTheme {
-                MainScreen()
-            }
+        when (val stateValue = state.value) {
+            is MainViewModel.State.Loading -> MainLoading()
+            is MainViewModel.State.Content -> MainContent(stateValue.receipts)
+            is MainViewModel.State.Error -> Text(text = "Error")
         }
     }
-
-    @Composable
-    fun MainScreen() {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(text = "Recipes")
-                    },
-                    backgroundColor = MaterialTheme.colors.surface
-                )
-            }
-        ) { innerPadding ->
-            val state = viewModel.state.observeAsState()
-
-            when (val stateValue = state.value) {
-                is MainViewModel.State.Loading -> Loading()
-                is MainViewModel.State.Content -> BodyContent(stateValue.receipts)
-                is MainViewModel.State.Error -> Text(text = "Error")
-            }
-        }
-    }
-
 }
 
 @Composable
-fun Loading() {
+fun MainLoading() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -77,7 +53,7 @@ fun Loading() {
 }
 
 @Composable
-fun BodyContent(
+fun MainContent(
     receipts: List<Receipt> = emptyList()
 ) {
     LazyColumn(
