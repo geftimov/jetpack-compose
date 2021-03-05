@@ -4,13 +4,13 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Receipts(
+data class Recipes(
     @field:Json(name = "recipes")
-    val recipes: List<Receipt>
+    val recipes: List<Recipe>
 )
 
 @JsonClass(generateAdapter = true)
-data class Receipt(
+data class Recipe(
     @field:Json(name = "readyInMinutes")
     val readyInMinutes: Int,
     @field:Json(name = "id")

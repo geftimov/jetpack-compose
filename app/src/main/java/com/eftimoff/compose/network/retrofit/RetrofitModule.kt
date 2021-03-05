@@ -1,6 +1,6 @@
 package com.eftimoff.compose.network.retrofit
 
-import com.eftimoff.compose.network.ReceiptApi
+import com.eftimoff.compose.network.RecipesApi
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -18,13 +18,13 @@ class RetrofitModule {
     fun provideReceiptApi(
         okHttpClient: OkHttpClient,
         moshiConverterFactory: MoshiConverterFactory
-    ): ReceiptApi {
+    ): RecipesApi {
         return Retrofit.Builder()
             .baseUrl("https://api.spoonacular.com/")
             .client(okHttpClient)
             .addConverterFactory(moshiConverterFactory)
             .build()
-            .create(ReceiptApi::class.java)
+            .create(RecipesApi::class.java)
     }
 
     @Provides
